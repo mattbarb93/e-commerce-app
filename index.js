@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
         <form method="POST">
             <input name="email" placeholder="email" />
             <input name="password" placeholder="password" />
-            <input name"password confirmation" placeholder="password confirmation" />
+            <input name="passwordConfirmation" placeholder="password confirmation" />
             <button>Sign Up</button>
         </form>
     </div>
@@ -24,8 +24,18 @@ app.get('/', (req, res) => {
     `);
 });
 
-//Send a message to the screen, once the incoming request is sent aka when the form is submitted
+//Adding code to get access to Email, Password, and Password confirmation submitted by the user back to the server
 app.post('/', (req, res) => {
+    //On method is the same as addEventListener: run a function whenever some event occours aka the data event. Data is apssed as the first arg to this callback function, so the console.log. Will display it as a buffer, so we will need to convert it to a string. This is all behind the scenes stuff
+    req.on('data', data => {
+        const parsed = data.toString('utf8').split('&');
+        const formData = {};
+        for (let pair of parsed) {
+            const [key, value] = pair.split('=');
+            formData[key] = value;
+        }
+        console.log(formData);
+    })
     res.send('Account created!');
 });
 
