@@ -8,7 +8,7 @@ class UsersRepository {
         }
 
         this.filename = filename;
-        try{
+        try {
             fs.accessSync(this.filename)
         } catch (err) {
             fs.writeFileSync(this.filename, '[]');
@@ -17,7 +17,7 @@ class UsersRepository {
 
     async getAll() {
 
-        return JSON.parse(await fs.promises.readFile(this.filename, { 
+        return JSON.parse(await fs.promises.readFile(this.filename, {
             encoding: 'utf8'
         }));
 
@@ -38,10 +38,10 @@ class UsersRepository {
         return data;
 
         */
-        
+
     }
 
-    async create(attributes){
+    async create(attributes) {
 
         //setting a random ID
         attributes.id = this.randomId();
@@ -85,14 +85,32 @@ class UsersRepository {
         await this.writeAll(filteredRecords);
     }
 
+    async update(id, attributes) {
+        //Get all users, then find the one you want to update
+        const records = await this.getAll()
+        const record = records.find(record => record.id === id)
+
+        //If you didnt find the record you wish, throw error
+        if (!record) {
+            throw new Error(`Record with id ${id} not found`)
+        }
+
+        // record === {email: 'test@test.com}
+        //attributes === {password: 'mypassword'}
+        Object.assign(record, attributes);
+        // after running it -> record {email: 'test@test.com, password: 'mypassword'}
+        await this.writeAll(records);
+    }
+
 }
 
-const test = async() => {
+const test = async () => {
     const repo = new UsersRepository('users.json');
 
-    
+
     const user = await repo.delete('aa368593');
 
+    await repo.update('0kalmkdlsad', {password: 'mypassword'})
     console.log(user);
 }
 
