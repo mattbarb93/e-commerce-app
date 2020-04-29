@@ -39,10 +39,24 @@ class UsersRepository {
         */
         
     }
+
+    async create(attributes){
+        //Creates a new user. Will reopen the file, and update it with newest user. Format { email: 'abc@ggg.com', password: 'abcde' }
+
+        const records = await this.getAll();
+        records.push(attributes);
+
+        //Write the updated records array back to this.filename
+
+        await fs.promises.writeFile(this.filename, JSON.stringify(records))
+    }
+
 }
 
 const test = async() => {
     const repo = new UsersRepository('users.json');
+
+    repo.create({email: 'test@test.com', password: 'password'});
     const users = await repo.getAll();
 
     console.log(users);
