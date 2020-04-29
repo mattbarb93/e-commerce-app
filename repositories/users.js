@@ -48,7 +48,15 @@ class UsersRepository {
 
         //Write the updated records array back to this.filename
 
-        await fs.promises.writeFile(this.filename, JSON.stringify(records))
+        await this.writeAll(records);
+    }
+
+
+    async writeAll(records) {
+        await fs.promises.writeFile(this.filename, JSON.stringify(records, null, 2))
+        //null doesnt do any custom formatting
+        //2 changes the indentation of the string. with every level of nesting, you get 2 spaces.
+
     }
 
 }
