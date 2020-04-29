@@ -127,12 +127,5 @@ class UsersRepository {
 
 }
 
-const test = async () => {
-    const repo = new UsersRepository('users.json');
-
-    const user = await repo.getOneBy({email: 'test@test.com', password: 'mypassword', id: '0a2b3c44'});
-
-    console.log(user);
-}
-
-test();
+//So the whole project can use it without needing to create an instance of a class in each new file. 
+module.exports = new UsersRepository('users.json');
