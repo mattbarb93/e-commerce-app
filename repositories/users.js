@@ -1,4 +1,5 @@
 const fs = require('fs');
+const crypto = require('crypto')
 
 class UsersRepository {
     constructor(filename) {
@@ -41,6 +42,10 @@ class UsersRepository {
     }
 
     async create(attributes){
+
+        //setting a random ID
+        attributes.id = this.randomId();
+        
         //Creates a new user. Will reopen the file, and update it with newest user. Format { email: 'abc@ggg.com', password: 'abcde' }
 
         const records = await this.getAll();
@@ -57,6 +62,11 @@ class UsersRepository {
         //null doesnt do any custom formatting
         //2 changes the indentation of the string. with every level of nesting, you get 2 spaces.
 
+    }
+
+    randomId() {
+        //Generates 4 bytes of data, and converts it to a string in hex format. Call function every time you need a random ID.
+        return crypto.randomBytes(4).toString('hex');
     }
 
 }
