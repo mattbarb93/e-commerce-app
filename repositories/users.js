@@ -45,7 +45,7 @@ class UsersRepository {
 
         //setting a random ID
         attributes.id = this.randomId();
-        
+
         //Creates a new user. Will reopen the file, and update it with newest user. Format { email: 'abc@ggg.com', password: 'abcde' }
 
         const records = await this.getAll();
@@ -69,15 +69,21 @@ class UsersRepository {
         return crypto.randomBytes(4).toString('hex');
     }
 
+    async getOne(id) {
+        const records = await this.getAll();
+
+        return records.find(record => record.id === id);
+    }
+
 }
 
 const test = async() => {
     const repo = new UsersRepository('users.json');
 
-    repo.create({email: 'test@test.com', password: 'password'});
-    const users = await repo.getAll();
+    
+    const user = await repo.getOne('alkdlas');
 
-    console.log(users);
+    console.log(user);
 }
 
 test();
