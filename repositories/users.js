@@ -59,7 +59,7 @@ class UsersRepository {
 
         const records = await this.getAll();
         //Take all properties of attributes object, and replace the password inside attributes with the salted one
-        const record = records.push({
+        const record = ({
             ...attributes,
             password: `${buffer.toString('hex')}.${salt}`
         });
@@ -70,9 +70,24 @@ class UsersRepository {
         await this.writeAll(records);
 
         //Return it so we have access to the user somewhere else
-        return attributes;
+        return record;
     }
 
+    async comparePasswords(saved, supplied) {
+        //Saved === Password saved in our DB ]hashed.salt'
+        //Supplied === Password given to us by a user trying to sign in
+
+        /*
+        const result = saved.split('.');
+        const hashed = result[0];
+        const sallt = result [1];
+        */
+
+        const [hashed, salt] = saved.split('.');
+        const hashedSuppliedBuf = await scrypt(supplied, salt, 64);
+
+        return hashed === hashedSuppliedBuf.toString('hex');
+    }
 
     async writeAll(records) {
         await fs.promises.writeFile(this.filename, JSON.stringify(records, null, 2))
@@ -129,7 +144,7 @@ class UsersRepository {
         for (let record of records) {
             let found = true;
 
-            for(let key in filters){
+            for (let key in filters) {
                 if (record[key] !== filters[key]) {
                     found = false;
                 }
