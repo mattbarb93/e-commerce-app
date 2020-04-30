@@ -1,5 +1,8 @@
 const fs = require('fs');
 const crypto = require('crypto')
+const util = require('util')
+
+const scrypt = util.promisify(crypto.scrypt);
 
 class UsersRepository {
     constructor(filename) {
@@ -43,15 +46,26 @@ class UsersRepository {
 
     async create(attributes) {
 
+        // Assumr attributes is always {email: ' ', password: ' '}
+
         //setting a random ID
         attributes.id = this.randomId();
+
+        //Hashing + salting the passwordss
+        const salt = crypto.randomBytes(8).toString('hex');
+        const buffer = await scrypt(attributes.password, salt, 64);
 
         //Creates a new user. Will reopen the file, and update it with newest user. Format { email: 'abc@ggg.com', password: 'abcde' }
 
         const records = await this.getAll();
-        records.push(attributes);
+        //Take all properties of attributes object, and replace the password inside attributes with the salted one
+        const record = records.push({
+            ...attributes,
+            password: `${buffer.toString('hex')}.${salt}`
+        });
 
         //Write the updated records array back to this.filename
+        records.push(record)
 
         await this.writeAll(records);
 
