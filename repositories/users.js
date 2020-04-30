@@ -54,6 +54,9 @@ class UsersRepository {
         //Write the updated records array back to this.filename
 
         await this.writeAll(records);
+
+        //Return it so we have access to the user somewhere else
+        return attributes;
     }
 
 
