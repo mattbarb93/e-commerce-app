@@ -1,11 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const usersRepo = require('./repositories/users')
+const cookieSession = require('cookie-session');
+const usersRepo = require('./repositories/users');
 
 const app = express();
 
 //Syntax for bodyParser.urlencoded: used specifically to handle an HTML form. Will take the information from the user, parse it, and send it to our server. Set it like this so its done globally
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieSession({
+    keys: ['nqoidnqpiwdnqpdqwpo'] //Used to encrypt the user's cookie since it's a random string
+}));
 
 
 app.get('/', (req, res) => {
@@ -13,6 +17,7 @@ app.get('/', (req, res) => {
     //Adding method="POST". Its associated with creating a record of some kind, like an user account!
     res.send(`
     <div>
+        Your id is: ${req.session.userId}
         <form method="POST">
             <input name="email" placeholder="email" />
             <input name="password" placeholder="password" />
@@ -44,6 +49,7 @@ app.post('/', async (req, res) => {
     const user = await usersRepo.create({email, password});
 
     //Store the ID of that user inside the user's cookies
+    req.session.userId = user.id //Added by Cookie Session!
 
 
     res.send('Account created!');
