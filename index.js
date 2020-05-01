@@ -5,6 +5,8 @@ const authRouter = require('./routes/admin/auth');
 
 const app = express();
 
+app.use(express.static('public'));
+
 //Syntax for bodyParser.urlencoded: used specifically to handle an HTML form. Will take the information from the user, parse it, and send it to our server. Set it like this so its done globally
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieSession({
