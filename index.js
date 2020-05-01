@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const authRouter = require('./routes/admin/auth');
+const productsRouter = require('./routes/admin/products')
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cookieSession({
     keys: ['nqoidnqpiwdnqpdqwpo'] //Used to encrypt the user's cookie since it's a random string
 }));
 app.use(authRouter);
+app.use(productsRouter);
 
 
 
