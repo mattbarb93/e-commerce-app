@@ -1,10 +1,20 @@
 const { check } = require('express-validator');
-const usersRepo = require('../../repositories/users');
+const usersconstRepo = require('../../repositories/users');
+
 
 //https://www.npmjs.com/package/validator
 //Sanitize first, then validate
 //Trim checks for white spaces, normalizeEmail canonicalizes the email, isEmail validates to see if its an email
 module.exports = {
+
+    requireTitle:  check('title')
+    .trim()
+    .isLength({min: 5, max: 20}),
+    
+    requirePrice: check('price')
+    .trim()
+    .toFloat()
+    .isFloat( {min: 1}),
 
     requireEmail: check('email')
         .trim()
