@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-const usersconstRepo = require('../../repositories/users');
+const usersRepo = require('../../repositories/users');
 
 
 //https://www.npmjs.com/package/validator
