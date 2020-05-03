@@ -13,5 +13,18 @@ module.exports = {
 
             next()
         }
+    },
+
+    //If user isnt signed in, redirect to signin page. If he is, proceed to the next action
+
+    requireAuth(req, res, next) {
+        if(!req.session.userId) {
+            return res.redirect('/signin')
+        }
+
+        next();
+
     }
+
+
 };
