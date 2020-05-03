@@ -34,7 +34,7 @@ router.post(
         //Store the ID of that user inside the user's cookies
         req.session.userId = user.id;
 
-        res.send('Account created!');
+        res.redirect('/admin/products')
     });
 
 router.get('/signout', (req, res) => {
@@ -60,7 +60,7 @@ router.post(
     
     req.session.userId = user.id;
 
-    res.send('You are signed in!');
+    res.redirect('/admin/products')
 
 });
 
