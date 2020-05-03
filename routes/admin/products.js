@@ -67,7 +67,10 @@ router.post('/admin/products/:id/edit',
     requireAuth, 
     upload.single('image'),
     [requireTitle, requirePrice],
-    handleErrors(productsNewTemplate),
+    handleErrors(productsEditTemplate, async (req) => {
+        const product = await productsRepo.getOne(req.params.id);
+        return { product };
+    }),
     async (req, res) => {
         const changes = req.body;
 
