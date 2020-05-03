@@ -43,5 +43,15 @@
     "email": "test10@test.com",
     "password": "e2b1e13c56e909af77ebc48793f633519c1fcb6a172d0cae4db58c3ddbc5483b33c71794b553ff1a3a8e5dc269afcd293e2d72e3545780fd6fdcc195afde634e.c0aff1081ca6884d",
     "id": "d09036a0"
+  },
+  {
+    "email": "mattbarb93@gmail.com",
+    "password": "6ae54f84f15c3b037f15da73470118cf914a2c1f17527c154927cd203dffb4c893c2355c83c5d82d7a86050923216c5376cf564fc2f18adddbba68e17af95b70.7c59cd13288b190f",
+    "id": "d376fec1"
+  },
+  {
+    "email": "test123@test.com",
+    "password": "af2a7ffcec91430a984d833646068158fd0e84a578764fb0a0b6317b364b7a7b013198f99280dd66133602c4fd1df21552b45d270a4a75be2bad6adca5abc9c3.79709a9e7c63b462",
+    "id": "8c2414f9"
   }
 ]

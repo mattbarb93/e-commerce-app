@@ -32,7 +32,7 @@ router.post(
         const user = await usersRepo.create({ email, password });
 
         //Store the ID of that user inside the user's cookies
-        req.session.userId = user.id
+        req.session.userId = user.id;
 
         res.send('Account created!');
     });
@@ -52,6 +52,7 @@ router.post(
     handleErrors(signinTemplate),
     async (req, res) => {
     
+        
     
     const { email } = req.body;
 
