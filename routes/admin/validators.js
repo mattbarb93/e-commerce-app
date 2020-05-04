@@ -75,5 +75,17 @@ module.exports = {
             throw new Error('Incorrect password!');
         }
     
+    }),
+    requireImage: check('image')
+    .custom(async (image, {req}) => {
+        const file = req.file;
+
+        if(!file){
+            throw new Error('Please upload a file!')
+        }
+
+        return (req, res, next) => {
+            next()
+        }
     })
 }

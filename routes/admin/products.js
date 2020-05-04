@@ -12,7 +12,7 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() }); //middleware function
 
 
-const { requirePrice, requireTitle } = require('./validators')
+const { requirePrice, requireTitle, requireImage } = require('./validators')
 
 
 router.get('/admin/products', requireAuth, async (req, res) => {
@@ -38,13 +38,16 @@ router.post(
     '/admin/products/new',
     requireAuth,
     upload.single('image'),
-    [requireTitle, requirePrice],
+    [requireTitle, requirePrice, requireImage],
     handleErrors(productsNewTemplate),
     async (req, res) => {
 
         if (!req.session.userId) {
             return res.redirect('/signin')
         }
+
+        
+        //Buffer error if no image is uploaded. Change the logic on image, so image has a default value. Make image a let, and add an if statement adding the new image.
 
         const image = req.file.buffer.toString('base64');
         const { title, price } = req.body;
