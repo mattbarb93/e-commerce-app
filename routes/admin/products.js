@@ -46,10 +46,9 @@ router.post(
             return res.redirect('/signin')
         }
 
-        
-        //Buffer error if no image is uploaded. Change the logic on image, so image has a default value. Make image a let, and add an if statement adding the new image.
-
+        //if you want a specific image to be uploaded, set image as 'let', and if its null, assign a string to it
         const image = req.file.buffer.toString('base64');
+
         const { title, price } = req.body;
         await productsRepo.create({ title, price, image });
 
